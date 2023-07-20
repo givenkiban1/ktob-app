@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KTOB Route Optimizer</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<script>
+
+  function getLoadingAnimation() {
+
+    var load = document.createElement('div');
+    load.className = 'loader';
+    return load
+  }
+</script>
+<style>
+  .loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
+
+/* Pink button styles */
+.download-button {
+  display: inline-block;
+  background-color: #FF69B4; /* Pink color code */
+  color: #FFFFFF; /* White text color */
+  font-size: 16px;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Icon styles */
+.download-button::before {
+  content: "\f019"; /* Unicode for the download icon */
+  font-family: FontAwesome; /* Make sure you have FontAwesome included in your project */
+  margin-right: 10px;
+}
+
+/* Change button background color on hover */
+.download-button:hover {
+  background-color: #FF1493; /* Lighter pink color on hover */
+}
+
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+<body>
+    <h1>NumberBoost Route Optimizing</h1>
+    <h3>Upload a CSV file</h3>
+    <form id="csvForm" enctype="multipart/form-data">
+        <input type="file" name="csv_file" accept=".csv">
+        <br>
+        <input type="number" name="NUM_SHIFTS" placeholder="Number of Shifts">
+        <br>
+        <input type="number" name="PATH_DISTANCE" placeholder="Path Distance">
+        <br>
+        <input type="button" value="Upload" id="uploadBtn">
+    </form>
+    <div id="tableDiv"></div>
+
+    <script>
+        // Send the CSV file to the server using AJAX
+        $("#uploadBtnzzzzz").on("click", function () {
+            var formData = new FormData($('#csvForm')[0]);
+            // $.ajax({
+            //     url: "/upload",
+            //     type: "POST",
+            //     data: formData,
+            //     contentType: false,
+            //     processData: false,
+            //     success: function (data) {
+            //         if ('error' in data) {
+            //             alert(data.error);
+            //         } else {
+            //             // Convert the received JSON data back to a DataFrame
+            //             var dfData = JSON.parse(data.data);
+            //             var columns = data.columns;
+
+            //             // Render the DataFrame table
+            //             var tableHTML = "<table border='1'>";
+            //             tableHTML += "<thead><tr>";
+            //             for (var i = 0; i < columns.length; i++) {
+            //                 tableHTML += "<th>" + columns[i] + "</th>";
+            //             }
+            //             tableHTML += "</tr></thead><tbody>";
+            //             for (var i = 0; i < dfData.data.length; i++) {
+            //                 tableHTML += "<tr>";
+            //                 for (var j = 0; j < dfData.data[i].length; j++) {
+            //                     tableHTML += "<td>" + dfData.data[i][j] + "</td>";
+            //                 }
+            //                 tableHTML += "</tr>";
+            //             }
+            //             tableHTML += "</tbody></table>";
+
+            //             $("#tableDiv").html(tableHTML);
+            //         }
+            //     },
+            //     error: function () {
+            //         alert("An error occurred while uploading the CSV file.");
+            //     }
+            // });
+        });
+    </script>
+
+  <div id="plotDiv"></div>
+  <div id="loadStuff"></div>
+  <div id="iframe"></div>
+  <div id="download"></div>
+  <script>
+      // Send the CSV file to the server using AJAX
+      $("#uploadBtn").on("click", function () {
+
+          $("#loadStuff").html(getLoadingAnimation());
+          var formData = new FormData($('#csvForm')[0]);
+          $.ajax({
+              url: "/upload",
+              type: "POST",
+              data: formData,
+              contentType: false,
+              processData: false,
+              success: function (data) {
+                  if ('error' in data) {
+                      alert(data.error);
+                  } else {
+                      // Create an image element and display the generated plot image
+
+                      // JavaScript with jQuery
+                      var imageList = data.images;
+                      var currentIndex = 0;
+
+                      function showNextImage() {
+                        if (currentIndex >= imageList.length) {
+                          return;
+                        }
+
+                        var img = new Image();
+
+                        img.src = "data:image/png;base64," + imageList[currentIndex];
+                        $("#plotDiv").html(img);
+
+                        // $('#imageContainer').html('<img src="' + imageUrl + '">');
+                        currentIndex++;
+
+                        // Set the interval to display the images with a delay of 2000ms (2 seconds)
+                        setTimeout(showNextImage, 2000);
+
+                      }
+
+                      // Start showing the images
+                      showNextImage();
+
+                      generateMap();
+
+                  }
+
+
+
+
+              },
+              error: function () {
+                  alert("An error occurred while uploading the CSV file.");
+                  $("#loadStuff").empty();
+              }
+          });
+      });
+  </script>
+  <script>
+    function generateMap(){
+
+
+      var formData = new FormData($('#csvForm')[0]);
+      $.ajax({
+              url: "/generateMap",
+              type: "POST",
+              data: formData,
+              contentType: false,
+              processData: false,
+              success: function (data) {
+
+                // alert(data.success);
+                $("#loadStuff").empty();
+
+
+                var iframe = document.createElement('iframe');
+                iframe.src = "http://127.0.0.1:5000/iframe";
+                iframe.width = 700;
+                iframe.height = 400;
+                $("#iframe").html(iframe);
+
+
+                var a = document.createElement('a');
+                a.textContent = "Download PDFs";
+                a.className = "download-button";
+                a.href="http://0.0.0.0:5000/download";
+                a.download = "results.zip";
+
+                $("#download").html(a);
+
+
+              },
+              error: function(){
+                $("#loadStuff").empty();
+                alert("An error occurred while receiving the map image.");
+              }
+      });
+
+
+    }
+  </script>
+</body>
+</html>
