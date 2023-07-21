@@ -1,9 +1,15 @@
 from flask import Flask, request, render_template, jsonify, send_from_directory
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib
 from processes import load_data, generate_scatterplot_1, KMeansAlgo, generate_scatterplot_2, findBoundingBoxes, generate_scatterplot_3, shortestPath, generateMap, zip_folder, delete_all_files_in_folder, generatePdfs
 import os
 
 app = Flask(__name__)
+
+# Set the "Agg" backend for Matplotlib
+matplotlib.use('Agg')
 
 
 @app.route("/", methods=["GET"])
@@ -22,9 +28,20 @@ def upload_csv():
         c = findBoundingBoxes(df, c)
 
         # generate images
+
+        sns.set_theme(style="whitegrid")
+        plt.figure(figsize=(6, 4))
         plot_image1 = generate_scatterplot_1(df)
+        plt.close()
+
+        plt.figure(figsize=(6, 4))
         plot_image2 = generate_scatterplot_2(df, c)
+        plt.close()
+
+
+        plt.figure(figsize=(6, 4))
         plot_image3 = generate_scatterplot_3(df, c)
+        plt.close()
 
 
         # Process the CSV file and generate the scatter plot as an image

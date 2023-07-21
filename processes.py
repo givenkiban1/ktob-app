@@ -53,17 +53,21 @@ def load_data(csv):
 
 
 def generate_scatterplot_1(df):
-    sns.set_theme(style="whitegrid")
-    plt.figure(figsize=(8, 6))
     sns.scatterplot(x=df['lat'], y=df['long'])
+
+    plt.xlabel('Latitude', fontsize=8)
+    plt.ylabel('Longitude', fontsize=8)
+    plt.tick_params(axis='both', which='major', labelsize=6)
 
     # create an image and somehow return this so that it can be displayed in the html
 
     buffer = BytesIO()
     plt.savefig(buffer, format='png')
-    plt.close()
     buffer.seek(0)
     plot_image = base64.b64encode(buffer.read()).decode()
+
+    buffer.flush()
+    buffer.close()
 
     return plot_image
 
@@ -89,17 +93,22 @@ def KMeansAlgo(df):
     return c
 
 def generate_scatterplot_2(df, c):
-    sns.set_theme(style="whitegrid")
-    plt.figure(figsize=(8, 6))
     sns.scatterplot(x=df['lat'], y=df['long'])
     sns.scatterplot(x=c['lat'], y=c['long'], color='red')
+
+    plt.xlabel('Latitude', fontsize=8)
+    plt.ylabel('Longitude', fontsize=8)
+    plt.tick_params(axis='both', which='major', labelsize=6)
 
     # create an image and somehow return this so that it can be displayed in the html
     buffer = BytesIO()
     plt.savefig(buffer, format='png')
-    plt.close()
+
     buffer.seek(0)
     plot_image = base64.b64encode(buffer.read()).decode()
+
+    buffer.flush()
+    buffer.close()
 
     return plot_image
 
@@ -126,9 +135,6 @@ def findBoundingBoxes(df, c):
 
 def generate_scatterplot_3(df, c):
     # Create a scatter plot using Seaborn
-    sns.set_theme(style="whitegrid")
-    plt.figure(figsize=(8, 6))
-
     sns.scatterplot(x=df['lat'], y=df['long'])
     sns.scatterplot(x=c['lat'], y=c['long'])
 
@@ -140,15 +146,18 @@ def generate_scatterplot_3(df, c):
         plt.gca().add_patch(square)
 
     # # Set axis labels and show the plot
-    # plt.xlabel('x-axis')
-    # plt.ylabel('y-axis')
+    plt.xlabel('Latitude', fontsize=8)
+    plt.ylabel('Longitude', fontsize=8)
+    plt.tick_params(axis='both', which='major', labelsize=6)
     # plt.title('Squares for Each Row')
 
     buffer = BytesIO()
     plt.savefig(buffer, format='png')
-    plt.close()
     buffer.seek(0)
     plot_image = base64.b64encode(buffer.read()).decode()
+
+    buffer.flush()
+    buffer.close()
 
     return plot_image
 
