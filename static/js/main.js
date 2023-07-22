@@ -94,7 +94,7 @@ function generateMap(){
       $("#statusMessage").text("Completed! Download your PDFs below.");
 
       var iframe = document.createElement('iframe');
-      iframe.src = "http://127.0.0.1:5000/iframe";
+      iframe.src = "/iframe";
       iframe.width = 700;
       iframe.height = 400;
       $("#iframe").html(iframe);
@@ -104,7 +104,7 @@ function generateMap(){
       var a = document.createElement('a');
       a.textContent = "Download PDFs";
       a.className = "download-button";
-      a.href="http://0.0.0.0:5000/download";
+      a.href="/download";
       a.download = "results.zip";
 
       // reset button

@@ -71,7 +71,7 @@ def generate_scatterplot_1(df):
 
     return plot_image
 
-def KMeansAlgo(df):
+def KMeansAlgo(df, PATH_DISTANCE=5, NUM_SHIFTS=10):
     # Assuming 'coordinates' is a 2D list of longitude and latitude pairs
     # Example: coordinates = [[long1, lat1], [long2, lat2], ...]
 
@@ -79,7 +79,7 @@ def KMeansAlgo(df):
     data = df[['lat', 'long']]
 
     # Define the number of centroids you want (9 in this case)
-    k = 9
+    k = NUM_SHIFTS
 
     # Apply k-means clustering
     kmeans = KMeans(n_clusters=k, random_state=0)
@@ -173,6 +173,8 @@ def shortestPath(df, centroids, PATH_DISTANCE=5, NUM_SHIFTS=10):
 
 
     results = {}
+
+    print("len of centroids", len(centroids))
 
     # loop over bounding boxes
     for bb in range(len(centroids)):

@@ -18,12 +18,15 @@ def upload_form():
 
 @app.route("/upload", methods=["POST"])
 def upload_csv():
+    NUM_SHIFTS = int(request.form.get("NUM_SHIFTS"))
+    PATH_DISTANCE = int(request.form.get("PATH_DISTANCE"))
+
     csv_file = request.files["csv_file"]
     if csv_file.filename.endswith(".csv"):
         # Process the CSV file and get the DataFrame
         df = load_data(csv_file)
 
-        c = KMeansAlgo(df)
+        c = KMeansAlgo(df, PATH_DISTANCE=PATH_DISTANCE, NUM_SHIFTS=NUM_SHIFTS)
 
         c = findBoundingBoxes(df, c)
 
@@ -59,7 +62,7 @@ def generateOutputMap():
     # Process the CSV file and get the DataFrame
     df = load_data(csv_file)
 
-    c = KMeansAlgo(df)
+    c = KMeansAlgo(df, PATH_DISTANCE=PATH_DISTANCE, NUM_SHIFTS=NUM_SHIFTS)
 
     c = findBoundingBoxes(df, c)
 
@@ -88,4 +91,4 @@ def download():
     return send_from_directory(directory, 'results.zip', as_attachment=True)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
