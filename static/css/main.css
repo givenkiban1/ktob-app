@@ -10,7 +10,7 @@
 /* Pink button styles */
 .download-button {
 display: inline-block;
-background-color: #FF69B4; /* Pink color code */
+background-color: #2e60cc; /* Pink color code */
 color: #FFFFFF; /* White text color */
 font-size: 16px;
 padding: 10px 20px;
@@ -30,7 +30,7 @@ margin-right: 10px;
 
 /* Change button background color on hover */
 .download-button:hover {
-background-color: #FF1493; /* Lighter pink color on hover */
+background-color: #2e60cc; /* Lighter pink color on hover */
 }
 
 
@@ -84,7 +84,7 @@ border-radius: 4px;
 form input[type="button"] {
 width: 100%;
 padding: 12px 20px;
-background-color: #FF69B4;
+background-color: #2e60cc;
 color: #fff;
 font-size: 16px;
 border: none;
@@ -93,7 +93,7 @@ cursor: pointer;
 }
 
 form input[type="button"]:hover {
-background-color: #FF1493;
+background-color: #2e60cc;
 }
 
 /* Loader styles */
@@ -115,7 +115,7 @@ margin-top: 30px;
 /* Download button styles */
 .download-button {
 display: inline-block;
-background-color: #FF69B4;
+background-color: #2e60cc;
 color: #FFFFFF;
 font-size: 16px;
 padding: 10px 20px;
@@ -133,7 +133,7 @@ margin-right: 10px;
 }
 
 .download-button:hover {
-background-color: #FF1493;
+background-color: #2e60cc;
 }
 
 /* Add this CSS to style the reset button */
@@ -157,7 +157,7 @@ transition: background-color 0.3s ease;
   margin-top: 10px;
   font-size: 18px;
   color: #fff;
-  background-color: #FF69B4; /* Pink color code */
+  background-color: #2e60cc; /* Pink color code */
   padding: 8px 16px;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

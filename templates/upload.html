@@ -15,9 +15,11 @@
   <form id="csvForm" enctype="multipart/form-data">
       <input type="file" name="csv_file" accept=".csv">
       <br>
-      <input type="number" name="NUM_SHIFTS" placeholder="Number of Shifts">
+      <label for="NUM_SHIFTS">Number of Shifts:</label>
+      <input type="number" name="NUM_SHIFTS" value="5">
       <br>
-      <input type="number" name="PATH_DISTANCE" placeholder="Path Distance">
+      <label for="PATH_DISTANCE">Path Distance:</label>
+      <input type="number" name="PATH_DISTANCE" placeholder="Path Distance" value="10">
       <br>
       <input type="button" value="Upload" id="uploadBtn">
   </form>
